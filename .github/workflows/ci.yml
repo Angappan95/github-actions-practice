@@ -21,13 +21,13 @@ jobs:
         uses: astral-sh/step-uv@7
 
       - name: Setup python
-        uses: uv python install 3.14
+        run: uv python install 3.14
 
       - name: Install dependencies
-        uses: uv sync --locked
+        run: uv sync --locked
       
       - name: Run Lint
-        uses: uv run ruff check .
+        run: uv run ruff check .
 
   test: 
     runs-on: ubuntu-latest
