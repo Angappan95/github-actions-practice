@@ -9,13 +9,17 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   lint:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       
       - name: Install uv
         uses: astral-sh/setup-uv@v7
@@ -34,7 +38,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
@@ -55,6 +59,21 @@ jobs:
     
     runs-on: ubuntu-latest
 
-    steps:
-      - name: build
-        run: echo "Build started!!"
+    steps:  
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Login to Github Container Registry
+        uses: docker/login-actions@v3
+        with: 
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Docker image 
+        uses: docker build -t ghcr.io/${{ github.repository }}:${{ github.sha }} .
+
+      - name: Push Docker image
+        uses: docker push ghcr.io/${{ github.repository }}:${{ github.sha }}
+
+      
