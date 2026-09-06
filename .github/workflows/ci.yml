@@ -69,7 +69,7 @@ jobs:
           echo "Event: ${{ github.event_name }}"
           echo "Ref: ${{ github.ref }}"
           echo "Branch: ${{ github.ref_name }}"
-          echo "ENV: ${{ env.ENV}}"
+          echo "ENV: ${{ vars.ENV}}"
           echo "SECRET: ${{ secrets.SECRET1}}"
 
       - name: Checkout repository
